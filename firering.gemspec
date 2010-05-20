@@ -28,7 +28,26 @@ Gem::Specification.new do |s|
 
   # = MANIFEST =
   s.files = %w[
-
+    LICENSE
+    README.rdoc
+    Rakefile
+    examples/events.rb
+    examples/recent_messages.rb
+    examples/rooms.rb
+    examples/update_room.rb
+    firering.gemspec
+    lib/firering.rb
+    lib/firering/data.rb
+    lib/firering/data/message.rb
+    lib/firering/data/room.rb
+    lib/firering/data/upload.rb
+    lib/firering/data/user.rb
+    lib/firering/http.rb
+    lib/firering/requests.rb
+    lib/firering/streaming.rb
+    spec/data_spec.rb
+    spec/firering_spec.rb
+    spec/spec_helper.rb
   ]
   # = MANIFEST =
 
