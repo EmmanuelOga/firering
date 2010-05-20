@@ -60,7 +60,7 @@ task :default => :spec
 
 desc "Open an irb session preloaded with this library"
 task :console do
-  sh "irb -rubygems -r ./lib/#{name}.rb"
+  sh "irb -I ./lib/ -rubygems -r ./lib/#{name}.rb"
 end
 
 #############################################################################
