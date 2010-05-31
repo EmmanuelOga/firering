@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
 
   s.name              = 'firering'
   s.version           = '0.1.0'
-  s.date              = '2010-05-20'
+  s.date              = '2010-05-30'
   s.rubyforge_project = 'firering'
 
   s.summary     = "Campfire API interface powered by EventMachine and Yajl."
@@ -22,15 +22,17 @@ Gem::Specification.new do |s|
 
   s.add_dependency('eventmachine', [">= 0.12.10"])
   s.add_dependency('em-http-request', [">= 0.2.7"])
-  s.add_dependency('yajl', [">= 0.7.6"])
+  s.add_dependency('yajl-ruby', [">= 0.7.6"])
 
   s.add_development_dependency('rspec', [">= 1.3.0"])
+  s.add_development_dependency('sinatra', [">= 1.0.0"])
 
   # = MANIFEST =
   s.files = %w[
     LICENSE
     README.rdoc
     Rakefile
+    examples/authenticate.rb
     examples/events.rb
     examples/recent_messages.rb
     examples/rooms.rb
@@ -45,8 +47,46 @@ Gem::Specification.new do |s|
     lib/firering/http.rb
     lib/firering/requests.rb
     lib/firering/streaming.rb
-    spec/data_spec.rb
-    spec/firering_spec.rb
+    spec/firering/data_spec.rb
+    spec/firering/requests_spec.rb
+    spec/fixtures/headers/delete_messages_ID_star.json
+    spec/fixtures/headers/get_room_ID.json
+    spec/fixtures/headers/get_room_ID_live.json
+    spec/fixtures/headers/get_room_ID_recent.json
+    spec/fixtures/headers/get_room_ID_transcript.json
+    spec/fixtures/headers/get_room_ID_transcript_ID_ID_ID.json
+    spec/fixtures/headers/get_room_ID_uploads.json
+    spec/fixtures/headers/get_rooms.json
+    spec/fixtures/headers/get_search_harmless.json
+    spec/fixtures/headers/get_users_ID.json
+    spec/fixtures/headers/get_users_me.json
+    spec/fixtures/headers/post_messages_ID_star.json
+    spec/fixtures/headers/post_room_ID_join.json
+    spec/fixtures/headers/post_room_ID_leave.json
+    spec/fixtures/headers/post_room_ID_speak.json
+    spec/fixtures/headers/post_room_ID_unlock.json
+    spec/fixtures/headers/put_room_ID.json
+    spec/fixtures/json/delete_messages_ID_star.json
+    spec/fixtures/json/get_room_ID.json
+    spec/fixtures/json/get_room_ID_live.json
+    spec/fixtures/json/get_room_ID_recent.json
+    spec/fixtures/json/get_room_ID_transcript.json
+    spec/fixtures/json/get_room_ID_transcript_ID_ID_ID.json
+    spec/fixtures/json/get_room_ID_uploads.json
+    spec/fixtures/json/get_rooms.json
+    spec/fixtures/json/get_search_harmless.json
+    spec/fixtures/json/get_users_ID.json
+    spec/fixtures/json/get_users_me.json
+    spec/fixtures/json/post_messages_ID_star.json
+    spec/fixtures/json/post_room_ID_join.json
+    spec/fixtures/json/post_room_ID_leave.json
+    spec/fixtures/json/post_room_ID_lock.json
+    spec/fixtures/json/post_room_ID_speak.json
+    spec/fixtures/json/post_room_ID_unlock.json
+    spec/fixtures/json/put_room_ID.json
+    spec/fixtures/load_server.rb
+    spec/fixtures/retrieve.rb
+    spec/fixtures/server.rb
     spec/spec_helper.rb
   ]
   # = MANIFEST =
