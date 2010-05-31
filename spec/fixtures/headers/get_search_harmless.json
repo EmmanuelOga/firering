@@ -1,0 +1,30 @@
+HTTP/1.1 200 OK
+Date: Sat, 29 May 2010 23:21:54 GMT
+Server: Apache
+X-Powered-By: Phusion Passenger (mod_rails/mod_rack) 2.2.9
+ETag: "f81d277712b1afa0b8a93b731f746920"
+X-Runtime: 33
+Cache-Control: private, max-age=0, must-revalidate
+Content-Length: 696
+Status: 200
+Content-Type: application/json; charset=utf-8
+Set-Cookie: session_token=; path=/; expires=Wed, 29-May-2030 23:21:54 GMT
+Set-Cookie: _campfire_session=BAh7CDoQaWRlbnRpdHlfaWRpA7F3AjoJYXV0aHsGIg9icm9hZHNwaXJlewY6DHVzZXJfaWRpA%2FNXBjoPc2Vzc2lvbl9pZCIlOTk4ZjhiZDkwNjI5ZGVjYTIzYWE4YjY4ZWIzMTczYzA%3D--befa7f5f2e1905b588670811f117f65f8b761e4b; path=/; HttpOnly
+Via: 1.1 campfirenow.com
+Connection: close
+
+HTTP/1.1 200 OK
+Date: Sat, 29 May 2010 23:21:55 GMT
+Server: Apache
+X-Powered-By: Phusion Passenger (mod_rails/mod_rack) 2.2.9
+ETag: "f81d277712b1afa0b8a93b731f746920"
+X-Runtime: 36
+Cache-Control: private, max-age=0, must-revalidate
+Content-Length: 696
+Status: 200
+Content-Type: application/json; charset=utf-8
+Set-Cookie: session_token=; path=/; expires=Wed, 29-May-2030 23:21:55 GMT
+Set-Cookie: _campfire_session=BAh7CDoQaWRlbnRpdHlfaWRpA7F3AjoJYXV0aHsGIg9icm9hZHNwaXJlewY6DHVzZXJfaWRpA%2FNXBjoPc2Vzc2lvbl9pZCIlMWZhYTlhMTQ5MTA0ODJkYjI5OTNjMjhjMGUxNzlhMTk%3D--5114a1e762a2d748b382b232ca409245508eeac5; path=/; HttpOnly
+Via: 1.1 campfirenow.com
+Connection: close
+

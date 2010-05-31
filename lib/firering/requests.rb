@@ -30,22 +30,30 @@ module Firering
     http(:get, "/rooms.json") do |http|
 
       rooms = Yajl::Parser.parse(http.response, :symbolize_keys => true)[:rooms]
+      rooms.map! { |room| Firering::Room.new(room) }
+
       if multi
-        ids = rooms.map { |data| data[:id] }
-        rooms_multi(ids, &block)
+        rooms_multi(rooms, &block)
       else
-        rooms.map! { |room| Firering::Room.new(room) }
         block.call(rooms)
       end
     end
   end
 
   # helper for returning all rooms with all existing users (saves the step of going through each room)
-  def rooms_multi(ids, &block)
+  def rooms_multi(rooms, &block)
     multi = EventMachine::MultiRequest.new
-    rooms = []
-    ids.each { |id| multi.add(room(id) { |room| rooms << room }) }
-    multi.callback  { block.call(rooms) }
+    final_rooms = []
+
+    rooms.each do |room|
+      if room.locked? # can't retrieve aditional info on a locked room.
+        final_rooms << room
+      else
+        multi.add(room(room.id) { |req_room| final_rooms << req_room })
+      end
+    end
+
+    multi.callback  { block.call(final_rooms) }
   end
 
   # Returns an existing room. Also includes all the users currently inside the room.
@@ -170,64 +178,8 @@ module Firering
   end
 
   # Highlights a message / Removes a message highlight.
-  def highlight_message(message_id, yes_or_no, &block)
+  def highlight_message(message_id, yes_or_no = true, &block)
     http(yes_or_no ? :post : :delete, "/messages/#{message_id}/star.json", &block)
   end
 
 end
-
-__END__
-
-Upload a file
-POST /room/#{id}/uploads.xml
-
-Uploads a file to the room. File parameter in the multipart post body should be called ‘upload’.
-Request
-
-Content-Type: multipart/form-data; boundary=---------------------------XXX
-
-Content-Length: 8922
-
------------------------------XXX
-Content-Disposition: form-data; name="upload"; filename="me.jpg"
-Content-Type: image/jpeg
-...
-
-Response
-
-Status: 201 Created
-
-<upload>
-  <byte-size type="integer">8922</byte-size>
-  <content-type>image/jpeg</content-type>
-  <created-at type="datetime">2009-11-20T23:26:51Z</created-at>
-  <id type="integer">1</id>
-  <name>me.jpg</name>
-  <room-id type="integer">1</room-id>
-  <user-id type="integer">1</user-id>
-  <full-url>http://account.campfirenow.com/room/1/uploads/1/me.jpg</full-url>
-</upload>
-
---------------------------------------------------------------------------------
-
-Recently uploaded files
-GET /room/#{id}/uploads.xml
-
-Returns a collection of upto 5 recently uploaded files in the room.
-Response
-
-Status: 200 OK
-
-<uploads type="array">
-  <upload>
-    <byte-size type="integer">135</byte-size>
-    <content-type>application/octet-stream</content-type>
-    <created-at type="datetime">2009-11-20T23:26:51Z</created-at>
-    <id type="integer">1</id>
-    <name>char.rb</name>
-    <room-id type="integer">1</room-id>
-    <user-id type="integer">1</user-id>
-    <full-url>http://account.campfirenow.com/room/1/uploads/4/char.rb</full-url>
-  </upload>
-  ...
-</uploads>

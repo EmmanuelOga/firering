@@ -1,6 +1,7 @@
 require 'eventmachine'
 require 'yajl'
 require 'em-http'
+require 'date'
 
 module Firering
   VERSION = '0.1.0'

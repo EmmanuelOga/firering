@@ -1,14 +1,12 @@
 module Firering
-
-  # {"room_id":1,"created_at":"2009-12-01 23:44:40","body":"hello","id":1,
-  # "user_id":1,"type":"TextMessage"} {"room_id":1,"created_at":"2009-12-01
-  # 23:40:00","body":null,"id":2, "user_id":null,"type":"TimestampMessage"}
-  # ...
   module Streaming
+    extend self
 
-    STREAMING_HOST = "streaming.campfirenow.com"
+    attr_accessor :protocol, :host, :reconnect_delay
 
-    RECONNECT_TIMEOUT = 5
+    Streaming.host = "streaming.campfirenow.com"
+    Streaming.protocol = "https"
+    Streaming.reconnect_delay = 5
 
     # Streaming
     #
@@ -17,11 +15,12 @@ module Firering
     # API.
     def stream(room_id, url = nil, &block)
       parser = Yajl::Parser.new(:symbolize_keys => true)
+
       parser.on_parse_complete = proc do |hash|
         block.call(Firering::Message.new(hash))
       end
 
-      url ||= "https://#{STREAMING_HOST}/room/#{room_id}/live.json"
+      url ||= "#{Streaming.protocol}://#{Streaming.host}/room/#{room_id}/live.json"
 
       params = { :head => {'authorization' => [Firering.token, "X"], "Content-Type" => "application/json" } }
 
@@ -35,9 +34,9 @@ module Firering
       # few seconds before trying to reconnect.  Formats
       http.errback do
         if EventMachine.reactor_running?
-          puts "Error: #{http.errors}. Reconnecting in #{RECONNECT_TIMEOUT} seconds..."
+          puts "Error: #{http.errors}. Reconnecting in #{Streaming.reconnect_delay} seconds..."
 
-          EventMachine::add_timer(RECONNECT_TIMEOUT) do
+          EventMachine::add_timer(Streaming.reconnect_delay) do
             puts "reconnecting"
             stream(room_id, url, &block)
           end

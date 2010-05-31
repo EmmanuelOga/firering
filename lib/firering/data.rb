@@ -21,6 +21,10 @@ module Firering
     def initialize(data, base_key = nil)
       @data = data.is_a?(Hash) ? data : Yajl::Parser.parse(data, :symbolize_keys => true)
       @data = @data[base_key] if base_key
+
+      @data.each do |key, val|
+        @data[key] = Date.parse(val) rescue val if key.to_s =~ /(_at|_on)$/
+      end
     end
 
     def inspect

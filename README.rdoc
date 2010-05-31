@@ -2,6 +2,72 @@
 
 Campfire API interface powered by EventMachine and Yajl.
 
+  require 'firering'
+
+  Firering.subdomain = "subdomain"
+  Firering.token     = "token"
+
+  EM.run do
+    Firering.rooms do |rooms|
+      rooms.each do |room|
+        if room.name == "RoomName"
+
+          puts "Joining #{room.name}"
+
+          Firering.room_join(room.id) do
+            Firering.stream(room.id) do |message|
+
+              if message.from_user?
+                Firering.user(message.user_id) do |user|
+                  puts "( #{user.name} ) #{message.body}"
+                end
+              else
+                puts message.body if message.body.to_s !~ /^\s*$/
+              end
+
+            end
+          end
+
+        end
+      end
+    end
+
+    trap("INT") { EM.stop }
+  end
+
+= campf-notify
+
+The gem bundles an executable script for spawning libnotify powered notifications.
+To be able to use it, check your distro package repositories for the apropriate
+package containing the "notify-send" command line utility. In the case of archlinux,
+the package name is "libnotify".
+
+The script needs the following environment variables in place:
+
+  CAMPFIRE_SUBDOMAIN
+  CAMPFIRE_TOKEN
+
+Once the variables are set, run the script as follows:
+
+  campf-notify room-name /path/to/an/icon.png
+
+And watch the lovely notifications each time something is posted to a room.
+
+== Running the specs
+
+For running the specs, I opted for running a sinatra application for serving
+the fixture data. The server runs automatically when "rake spec" is executed,
+it runs on the standard sinatra port (4567), so you should make sure that
+port is free when running the specs.
+
+For more details take a look at spec/fixtures/load_server.rb file.
+
+== TODO
+
+* Better API documentation
+* Post files to a room
+* Retrieve recently uploaded files
+
 == Note on Patches/Pull Requests
 
 * Fork the project.
@@ -14,4 +80,4 @@ Campfire API interface powered by EventMachine and Yajl.
 
 == Copyright
 
-Copyright (c) 2009 Emmanuel Oga. See LICENSE for details.
+Copyright (c) 2010 Emmanuel Oga. See LICENSE for details.

@@ -1,0 +1,30 @@
+HTTP/1.1 201 Created
+Date: Sat, 29 May 2010 23:21:47 GMT
+Server: Apache
+X-Powered-By: Phusion Passenger (mod_rails/mod_rack) 2.2.9
+X-Runtime: 76
+Cache-Control: no-cache
+Location: http://broadspire.campfirenow.com/room/304355
+Content-Length: 139
+Status: 201
+Content-Type: application/json; charset=utf-8
+Set-Cookie: session_token=; path=/; expires=Wed, 29-May-2030 23:21:47 GMT
+Set-Cookie: _campfire_session=BAh7CDoQaWRlbnRpdHlfaWRpA7F3AjoJYXV0aHsGIg9icm9hZHNwaXJlewY6DHVzZXJfaWRpA%2FNXBjoPc2Vzc2lvbl9pZCIlMTRjYTVhMjBlM2ZjNTU4ODIxNmUxOTRjNDNhNjc2OTQ%3D--35b48ee0e7724ba56143b7e277234ae07c792462; path=/; HttpOnly
+Via: 1.1 campfirenow.com
+Connection: close
+
+HTTP/1.1 201 Created
+Date: Sat, 29 May 2010 23:21:48 GMT
+Server: Apache
+X-Powered-By: Phusion Passenger (mod_rails/mod_rack) 2.2.9
+X-Runtime: 68
+Cache-Control: no-cache
+Location: http://broadspire.campfirenow.com/room/304355
+Content-Length: 139
+Status: 201
+Content-Type: application/json; charset=utf-8
+Set-Cookie: session_token=; path=/; expires=Wed, 29-May-2030 23:21:48 GMT
+Set-Cookie: _campfire_session=BAh7CDoQaWRlbnRpdHlfaWRpA7F3AjoJYXV0aHsGIg9icm9hZHNwaXJlewY6DHVzZXJfaWRpA%2FNXBjoPc2Vzc2lvbl9pZCIlZGNhMDM1ZTRlMTdhZGFkMjViZDc3ZjE4ODllM2FjNTY%3D--b4478a2b12871a7ee4f79985fd875d44a64bcbc3; path=/; HttpOnly
+Via: 1.1 campfirenow.com
+Connection: close
+

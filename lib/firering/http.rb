@@ -1,11 +1,20 @@
 module Firering
   module HTTP
+    extend self
 
-    HOST = "campfirenow.com"
+    attr_accessor :host
+
+    HTTP.host = "campfirenow.com"
 
     # helper to perform an http request following redirects
     def http(method, path, data = nil, user = Firering.token, password = "X", &block)
-      url = (path =~ /^http/) ? path : "http://#{Firering.subdomain}.#{HOST}#{path}"
+
+      if (path =~ /^http/)
+        url = path
+      else
+        # handle nil subdomain for testing (e.g a fake localhost campfire server)
+        url = "http://#{[Firering.subdomain, HTTP.host].compact.join(".")}#{path}"
+      end
 
       parameters = { :head => {'authorization' => [user, password], "Content-Type" => "application/json" } }
       parameters.merge!(:body => data.is_a?(String) ? data : Yajl::Encoder.encode(data)) if data

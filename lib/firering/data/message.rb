@@ -1,17 +1,3 @@
-=begin
-<message>
-  <id type="integer">1</id>
-  <room-id type="integer">1</room-id>
-  <user-id type="integer">2</user-id>
-  <body>Hello Room</body>
-  <created-at type="datetime">2009-11-22T23:46:58Z</created-at>
-  <type>#{TextMessage || PasteMessage || SoundMessage || AdvertisementMessage ||
-          AllowGuestsMessage || DisallowGuestsMessage || IdleMessage || KickMessage ||
-          LeaveMessage || SystemMessage || TimestampMessage || TopicChangeMessage ||
-          UnidleMessage || UnlockMessage || UploadMessage}</type>
-</message>
-=end
-
 module Firering
   class Message < Firering::Data
     key :id, :room_id, :user_id, :body, :created_at, :type
@@ -35,8 +21,8 @@ module Firering
       end
     end
 
-    def to_s
-      "#{body} (#{user_id}, #{created_at})"
+    def from_user?
+      !user_id.nil? && (!user_id.instance_of?(String) || user_id !~ /~\s*$/)
     end
 
   end

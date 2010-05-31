@@ -1,31 +1,24 @@
-$LOAD_PATH.unshift(File.expand_path(File.join(File.dirname(__FILE__), "..", "lib")))
-
 require 'firering'
 
-$count = 0
+Firering.subdomain = ENV["CAMPFIRE_SUBDOMAIN"]
+Firering.token     = ENV["CAMPFIRE_TOKEN"]
 
 EM.run do
-  Firering.authenticate("subdomain", "user", "password") do |user|
+  Firering.rooms do |rooms|
 
-    Firering.rooms do |rooms|
+    rooms.each do |room|
+      puts "Users in room #{room.name}"
 
-      $count = rooms.length
-
-      rooms.each do |room|
-        $count -= 1
-
-        puts "Users in room #{room.name}"
-
-        if room.users.empty?
-          puts "  empty"
-        else
-          room.users.each do |u|
-            puts "  #{ u.name }"
-          end
+      if room.users.empty?
+        puts "  empty (locked: #{room.locked?})"
+      else
+        room.users.each do |u|
+          puts "  #{ u.name }"
         end
-
-        EM.stop if $count == 0
       end
+
     end
   end
+
+  trap("INT") { EM.stop }
 end
