@@ -3,8 +3,8 @@
 require 'firering'
 require 'shellwords'
 
-Firering.subdomain = ENV["CAMPFIRE_SUBDOMAIN"]
-Firering.token     = ENV["CAMPFIRE_TOKEN"]
+Firering.subdomain = ENV["CAMPFIRE_SUBDOMAIN"].to_s
+Firering.token     = ENV["CAMPFIRE_TOKEN"].to_s
 
 room_name = ARGV[0].to_s
 icon_path = ARGV[1].to_s
