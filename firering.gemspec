@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
     LICENSE
     README.rdoc
     Rakefile
+    bin/campf-notify
     examples/authenticate.rb
     examples/events.rb
     examples/recent_messages.rb

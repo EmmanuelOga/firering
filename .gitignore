@@ -1,6 +1,5 @@
 doc
 .yardoc
-bin
 *.swp
 coverage
 rdoc
