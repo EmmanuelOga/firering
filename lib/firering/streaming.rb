@@ -20,7 +20,7 @@ module Firering
         block.call(Firering::Message.new(hash))
       end
 
-      url ||= "#{Streaming.protocol}://#{Streaming.host}/room/#{room_id}/live.json"
+      url ||= "#{protocol}://#{host}/room/#{room_id}/live.json"
 
       params = { :head => {'authorization' => [Firering.token, "X"], "Content-Type" => "application/json" } }
 
