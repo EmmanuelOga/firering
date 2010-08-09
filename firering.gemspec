@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = %w[README.rdoc LICENSE]
 
   s.add_dependency('eventmachine', [">= 0.12.10"])
-  s.add_dependency('em-http-request', [">= 0.2.7"])
+  s.add_dependency('em-http-request', [">= 0.2.10"])
   s.add_dependency('yajl-ruby', [">= 0.7.6"])
 
   s.add_development_dependency('rspec', [">= 1.3.0"])

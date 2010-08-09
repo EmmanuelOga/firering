@@ -20,7 +20,7 @@ module Firering
         block.call(Firering::Message.new(hash))
       end
 
-      url ||= "#{protocol}://#{host}/room/#{room_id}/live.json"
+      url ||= "#{Streaming.protocol}://#{Streaming.host}/room/#{room_id}/live.json"
 
       params = { :head => {'authorization' => [Firering.token, "X"], "Content-Type" => "application/json" } }
 
@@ -34,7 +34,7 @@ module Firering
       # few seconds before trying to reconnect.  Formats
       http.errback do
         if EventMachine.reactor_running?
-          puts "Error: #{http.errors}. Reconnecting in #{Streaming.reconnect_delay} seconds..."
+          puts "Error: #{http.error}. Reconnecting in #{Streaming.reconnect_delay} seconds..."
 
           EventMachine::add_timer(Streaming.reconnect_delay) do
             puts "reconnecting"

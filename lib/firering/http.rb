@@ -14,7 +14,7 @@ module Firering
         url = path
       else
         # handle nil subdomain for testing (e.g a fake localhost campfire server)
-        url = "http://#{[Firering.subdomain, host].compact.join(".")}#{path}"
+        url = "http://#{[Firering.subdomain, HTTP.host].compact.join(".")}#{path}"
       end
 
       parameters = { :head => {'authorization' => [user, password], "Content-Type" => "application/json" } }
@@ -24,14 +24,14 @@ module Firering
 
       http.errback do
         if EventMachine.reactor_running?
-          puts "Error: #{http.errors}. Trying again in #{retry_delay} seconds..."
+          puts "Error: #{http.error}. Trying again in #{HTTP.retry_delay} seconds..."
 
-          EventMachine::add_timer(retry_delay) do
+          EventMachine::add_timer(HTTP.retry_delay) do
             puts "reconnecting"
-            stream(room_id, url, &block)
+            http(method, path, data, user, password, &block)
           end
         else
-          raise Firering::Error, "#{http.errors}\n#{url}, #{method}, #{parameters.inspect}\n#{http.response_header.status}\n#{http.response}"
+          raise Firering::Error, "#{http.error}\n#{url}, #{method}, #{parameters.inspect}\n#{http.response_header.status}\n#{http.response}"
         end
       end
 
@@ -42,7 +42,7 @@ module Firering
         when "302"
           http(method, http.response_header["Location"], user, password, &block) # follow redirects
         else
-          raise Firering::Error, "#{http.errors}\n#{url}, #{method}, #{parameters.inspect}\n#{http.response_header.status}\n#{http.response}"
+          raise Firering::Error, "#{http.error}\n#{url}, #{method}, #{parameters.inspect}\n#{http.response_header.status}\n#{http.response}"
         end
       end
 
