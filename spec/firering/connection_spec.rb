@@ -11,4 +11,15 @@ describe Firering::Connection do
     }
   end
 
+  it "stream messages" do
+    EM.run {
+      conn.stream(304355) do |message|
+        message.should be_an_instance_of(Firering::Message)
+      end
+      EM.add_timer(1) do
+        EM.stop
+      end
+    }
+  end
+
 end

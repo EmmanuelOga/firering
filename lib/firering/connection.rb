@@ -27,14 +27,14 @@ module Firering
     end
 
     def streaming_host=(host)
-      @host = Addressable::URI.parse(host)
+      @streaming_host = Addressable::URI.parse(host)
     end
 
     def auth_headers
       token ? {'authorization' => [token, "X"] } : {'authorization' => [login, password] }
     end
 
-    def parameters(data)
+    def parameters(data = nil)
       parameters = {
         :redirects => redirects,
         :head => auth_headers.merge("Content-Type" => "application/json")
@@ -55,7 +55,13 @@ module Firering
         end
       end
 
-      http.callback { callback.call(http) if callback; @performed_retries= 0 }
+      http.callback {
+        @performed_retries = 0
+        if callback
+          data = Yajl::Parser.parse(http.response, :symbolize_keys => true) rescue Hash.new
+          callback.call(data, http)
+        end
+      }
 
       http
     end
@@ -74,7 +80,7 @@ module Firering
 
       uri = streaming_host.join("/room/#{room_id}/live.json")
       logger.info("performing streaming request to #{uri.to_s}")
-      http = EventMachine::HttpRequest.new(uri).get(params)
+      http = EventMachine::HttpRequest.new(uri).get(parameters)
 
       http.stream { |chunk| parser << chunk; @performed_retries= 0 }
 
