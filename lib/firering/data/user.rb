@@ -1,16 +1,17 @@
-module Firering
-  class User  < Firering::Data
-    key :id, :name, :email_address, :admin, :created_at, :type, :api_auth_token
+class Firering::User < Firering::Data
 
-    alias_method :token, :api_auth_token
-    alias_method :admin?, :admin
+  data_attributes :id, :name, :email_address, :admin, :created_at, :type,
+    :api_auth_token
 
-    def member?
-      type == "Member"
-    end
+  alias_method :token, :api_auth_token
+  alias_method :admin?, :admin
 
-    def gest?
-      type == "Guest"
-    end
+  def member?
+    type == "Member"
   end
+
+  def gest?
+    type == "Guest"
+  end
+
 end

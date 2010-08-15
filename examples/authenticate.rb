@@ -6,13 +6,18 @@ print "Enter subdomain: "
 subdomain = gets.chomp
 
 print "Enter user: "
-user = gets.chomp
+login = gets.chomp
 
 print "Enter password: "
 password = gets.chomp
 
+conn = Firering::Connection.new("http://#{subdomain}.campfirenow.com") do |c|
+  c.login = login
+  c.password = password
+end
+
 EM.run do
-  Firering.authenticate(subdomain, user, password) do |user|
+  conn.authenticate do |user|
 
     puts "Token for user #{user.name} is #{user.token}"
 
