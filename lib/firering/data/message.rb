@@ -25,12 +25,20 @@ class Firering::Message < Firering::Data
   end
 
   def from_user?
-    !user_id.nil? && (!user_id.instance_of?(String) || user_id !~ /~\s*$/)
+    !user_id.nil? && (!user_id.instance_of?(String) || user_id !~ /^\s*$/)
   end
 
   # Highlights a message / Removes a message highlight.
   def star(id, yes_or_no = true, &callback)
     connection.star_message(id, yes_or_no, &callback)
+  end
+
+  def room(&callback)
+    connection.room(room_id, &callback)
+  end
+
+  def user(&callback)
+    connection.user(user_id, &callback) if from_user?
   end
 
 end

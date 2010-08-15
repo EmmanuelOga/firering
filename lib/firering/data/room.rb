@@ -8,14 +8,12 @@ class Firering::Room < Firering::Data
   alias_method :open_to_guests?, :open_to_guests
 
   # we perform a request each time so
-  # 1) we always be are up to date
+  # 1) we always are are up to date with the users currently on the room (even if some left)
   # 2) we make sure the users are here even if the room was instantiated from a
-  # /rooms request or a user left
+  # /rooms request
   def users(&callback)
-    connection.http(:get, "/room/#{id}.json") do |http|
-      rooms = Yajl::Parser.parse(http.response, :symbolize_keys => true)[:room][:users]
-      rooms.map! { |user| Firering::User.instantiate(self, user) }
-      callback.call(rooms)
+    connection.http(:get, "/room/#{id}.json") do |data, http|
+      callback.call(data[:room][:users].map { |user| Firering::User.instantiate(self, user) }) if callback
     end
   end
 
@@ -33,28 +31,22 @@ class Firering::Room < Firering::Data
   # additional optional parameter ‘limit’ to restrict the number of messages
   # returned.
   def recent_messages(limit = nil, &callback)
-    connection.http(:get, "/room/#{id}/recent.json", (limit ? { :limit => limit } : nil)) do |http|
-      messages = Yajl::Parser.parse(http.response, :symbolize_keys => true)[:messages]
-      messages.map! { |msg| Firering::Message.instantiate(connection, msg) }
-      callback.call(messages)
+    connection.http(:get, "/room/#{id}/recent.json", (limit ? { :limit => limit } : nil)) do |data, http|
+      callback.call(data[:messages].map { |msg| Firering::Message.instantiate(connection, msg) }) if callback
     end
   end
 
   # Returns all the messages sent today to a room.
   def today_transcript(&callback)
-    connection.http(:get, "/room/#{id}/transcript.json") do |http|
-      messages = Yajl::Parser.parse(http.response, :symbolize_keys => true)[:messages]
-      messages.map! { |msg| Firering::Message.instantiate(connection, msg) }
-      callback.call(messages)
+    connection.http(:get, "/room/#{id}/transcript.json") do |data, http|
+      callback.call(data[:messages].map { |msg| Firering::Message.instantiate(connection, msg) }) if callback
     end
   end
 
   # Returns all the messages sent on a specific date to a room.
   def transcript(year, month, day, &callback)
-    connection.http(:get, "/room/#{id}/transcript/#{year}/#{month}/#{day}.json") do |http|
-      messages = Yajl::Parser.parse(http.response, :symbolize_keys => true)[:messages]
-      messages.map! { |msg| Firering::Message.instantiate(connection, msg) }
-      callback.call(messages)
+    connection.http(:get, "/room/#{id}/transcript/#{year}/#{month}/#{day}.json") do |data, http|
+      callback.call(data[:messages].map { |msg| Firering::Message.instantiate(connection, msg) }) if callback
     end
   end
 
@@ -93,8 +85,8 @@ class Firering::Room < Firering::Data
   #
   # :type => "TextMessage",  :body => "Hello"
   def speak(data, &callback)
-    connection.http(:post, "/room/#{id}/speak.json", "message" => data) do |http| # Response Status: 201 Created
-      callback.call(Firering::Message.instantiate(connection, http.response))
+    connection.http(:post, "/room/#{id}/speak.json", "message" => data) do |data, http| # Response Status: 201 Created
+      callback.call(Firering::Message.instantiate(connection, data))
     end
   end
 
