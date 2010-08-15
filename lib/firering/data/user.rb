@@ -14,4 +14,5 @@ class Firering::User < Firering::Data
     type == "Guest"
   end
 
+  alias_method :to_s, :name
 end

@@ -2,14 +2,9 @@ require 'firering'
 
 puts "If you prefer it, you can authenticate your user with u/p instead of the campfire token."
 
-print "Enter subdomain: "
-subdomain = gets.chomp
-
-print "Enter user: "
-login = gets.chomp
-
-print "Enter password: "
-password = gets.chomp
+print "Enter subdomain: "; subdomain = gets.chomp
+print "Enter user: "     ; login     = gets.chomp
+print "Enter password: " ; password  = gets.chomp
 
 conn = Firering::Connection.new("http://#{subdomain}.campfirenow.com") do |c|
   c.login = login

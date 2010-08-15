@@ -38,7 +38,12 @@ class Firering::Message < Firering::Data
   end
 
   def user(&callback)
-    connection.user(user_id, &callback) if from_user?
+    if from_user?
+      connection.user(user_id, &callback)
+    else
+      callback.call(nil, connection)
+    end
   end
 
+  alias_method :to_s, :body
 end

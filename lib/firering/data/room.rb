@@ -7,6 +7,10 @@ class Firering::Room < Firering::Data
   alias_method :full?, :full
   alias_method :open_to_guests?, :open_to_guests
 
+  def stream(&callback)
+    join { |data, http| connection.stream(id, &callback) }
+  end
+
   # we perform a request each time so
   # 1) we always are are up to date with the users currently on the room (even if some left)
   # 2) we make sure the users are here even if the room was instantiated from a
