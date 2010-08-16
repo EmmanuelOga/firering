@@ -16,8 +16,8 @@ class Firering::Room < Firering::Data
   # 2) we make sure the users are here even if the room was instantiated from a
   # /rooms request
   def users(&callback)
-    connection.http(:get, "/room/#{id}.json") do |data, http|
-      callback.call(data[:room][:users].map { |user| Firering::User.instantiate(self, user) }) if callback
+    connection.http(:get, "/room/#{id}.json") do |data, http| # data can be blank on locked rooms
+      callback.call(data ? data[:room][:users].map { |user| Firering::User.instantiate(self, user) } : Array.new) if callback
     end
   end
 
