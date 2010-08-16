@@ -15,6 +15,8 @@ EM.run do
   conn.authenticate do |user|
 
     puts "Token for user #{user.name} is #{user.token}"
+    puts "You can set an environment variable for using it on scripts:"
+    puts "export CAMPFIRE_TOKEN=#{user.token}"
 
     EM.stop
 

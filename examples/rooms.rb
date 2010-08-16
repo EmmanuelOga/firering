@@ -7,14 +7,21 @@ end
 EM.run do
   conn.rooms do |rooms|
     rooms.each do |room|
-      puts "Users in room #{room.name}"
-      if room.users.empty?
-        puts "  empty (locked: #{room.locked?})"
-      else
-        room.users.each do |u|
-          puts "  #{ u.name }"
+
+      room.users do |users|
+        puts "Users in room #{room.name}"
+
+        if users.empty?
+          puts "  empty (locked: #{room.locked?})"
+        else
+          users.each do |u|
+            puts "  #{ u.name }"
+          end
         end
+
+        puts
       end
+
     end
   end
 

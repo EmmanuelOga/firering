@@ -1,41 +1,53 @@
 require 'firering'
 
-Firering.subdomain = ENV["CAMPFIRE_SUBDOMAIN"]
-Firering.token     = ENV["CAMPFIRE_TOKEN"]
+print "Enter subdomain: "; subdomain = gets.chomp
+print "Enter user: "     ; login     = gets.chomp
+print "Enter password: " ; password  = gets.chomp
+
+conn = Firering::Connection.new("http://#{subdomain}.campfirenow.com") do |c|
+  c.login = login
+  c.password = password
+end
 
 EM.run do
-  Firering.rooms do |rooms|
+  conn.authenticate do
+    conn.rooms do |rooms|
 
-    rooms.each do |room|
-      puts "Users in room #{room.name} (#{room.topic})"
+      rooms.each do |room|
+        puts "Users in room #{room.name} (#{room.topic})"
 
-      if room.users.empty?
-        puts "  empty (locked: #{room.locked?})"
-      else
-        room.users.each do |u|
-          puts "  #{ u.name }. Admin: #{ u.admin? }"
-        end
-      end
-
-      if room.locked?
-        puts "  can't get recent messages in a locked room'"
-      else
-        Firering.room_recent_messages(room.id) do |messages|
-
-          puts "-" * 80
-          puts "recent message on #{room.name}"
-          puts "-" * 80
-
-          messages.slice(0, 4).each do |m|
-            puts "\n  (#{m.user_id})"
-
-            m.body.to_s.split("\n").each do |chunk|
-              puts "  > #{chunk}"
+        room.users do |users|
+          if users.empty?
+            puts "  empty (locked: #{room.locked?})"
+          else
+            users.each do |u|
+              puts "  #{ u.name }. Admin: #{ u.admin? }"
             end
           end
         end
-      end
 
+        if room.locked?
+          puts "  can't get recent messages in a locked room'"
+        else
+          room.recent_messages do |messages|
+
+            puts "-" * 80
+            puts "recent message on #{room.name}"
+            puts "-" * 80
+
+            messages.slice(0, 4).each do |m|
+              m.user do |u|
+                puts "\n  (#{u})"
+
+                m.body.to_s.split("\n").each do |chunk|
+                  puts "  > #{chunk}"
+                end
+              end
+            end
+          end
+        end
+
+      end
     end
   end
 

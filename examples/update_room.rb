@@ -1,31 +1,34 @@
 require 'firering'
 
-Firering.subdomain = ENV["CAMPFIRE_SUBDOMAIN"]
-Firering.token     = ENV["CAMPFIRE_TOKEN"]
+conn = Firering::Connection.new("http://#{ENV["CAMPFIRE_SUBDOMAIN"]}.campfirenow.com") do |c|
+  c.token = ENV["CAMPFIRE_TOKEN"]
+end
 
 ROOM = "test2"
 
 EM.run do
-  Firering.rooms do |rooms|
+  conn.rooms do |rooms|
     rooms.each do |room|
+
       if room.name == ROOM
-        Firering.room_join(room.id) do
+        room.join do
 
-          Firering.update_room(room.id, "topic" => "test test test") do |response|
-            puts "  * Updating topic: "
-            puts response.response_header.status
+          room.update("topic" => "test test test") do |data, http|
+            print "  * Updating topic. HTTP Status returned: "
+            puts http.response_header.status
           end
 
-          Firering.text(room.id, "hola") do
-            puts "texted"
+          room.text("this is a test from the refactored gem") do
+            puts "sent text"
           end
 
-          Firering.paste(room.id, "hola\nmundo") do
-            puts "pasted"
+          room.paste("this is a\npaste\nfrom the refactored gem") do
+            puts "sent paste"
           end
 
         end
       end
+
     end
   end
 
