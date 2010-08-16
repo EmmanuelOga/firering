@@ -90,7 +90,7 @@ module Firering
       # few seconds before trying to reconnect.  Formats
       http.errback do
         perform_retry(http) do
-          stream(room_id, url, &callback)
+          stream(room_id, &callback)
         end
       end
 
