@@ -4,31 +4,29 @@ Campfire API interface powered by EventMachine and Yajl.
 
   require 'firering'
 
-  Firering.subdomain = "subdomain"
-  Firering.token     = "token"
+  print "Enter subdomain: "; subdomain = gets.chomp
+  print "Enter user: "     ; login     = gets.chomp
+  print "Enter password: " ; password  = gets.chomp
+
+  conn = Firering::Connection.new("http://#{subdomain}.campfirenow.com") do |c|
+    c.login = login
+    c.password = password
+  end
 
   EM.run do
-    Firering.rooms do |rooms|
-      rooms.each do |room|
-        if room.name == "RoomName"
+    conn.authenticate do |user|
+      conn.rooms do |rooms|
 
-          puts "Joining #{room.name}"
+        rooms.each do |room|
+          if room.name == "Room Name"
 
-          Firering.room_join(room.id) do
-            Firering.stream(room.id) do |message|
-
-              if message.from_user?
-                Firering.user(message.user_id) do |user|
-                  puts "( #{user.name} ) #{message.body}"
-                end
-              else
-                puts message.body if message.body.to_s !~ /^\s*$/
-              end
-
+            room.stream do |message|
+              message.user { |user| puts "#{user}: #{message}" }
             end
-          end
 
+          end
         end
+
       end
     end
 
@@ -37,10 +35,10 @@ Campfire API interface powered by EventMachine and Yajl.
 
 = campf-notify
 
-The gem bundles an executable script for spawning libnotify powered notifications.
-To be able to use it, check your distro package repositories for the apropriate
-package containing the "notify-send" command line utility. In the case of archlinux,
-the package name is "libnotify".
+The gem bundles an executable script for spawning libnotify powered
+notifications.  To be able to use it, check your distro package repositories
+for the apropriate package containing the "notify-send" command line utility.
+In the case of archlinux, the package name is "libnotify".
 
 The script needs the following environment variables in place:
 
@@ -55,10 +53,12 @@ And watch the lovely notifications each time something is posted to a room.
 
 == Running the specs
 
-For running the specs, I opted for running a sinatra application for serving
-the fixture data. The server runs automatically when "rake spec" is executed,
-it runs on the standard sinatra port (4567), so you should make sure that
-port is free when running the specs.
+When the specs are run a process is forked where a Rack application is run.
+This rack application serves all the fixtured responses that mimic the working
+of the real campfire app. The only caveat here is you may get a conflict if you
+are already running something on the port (8909). If this happens you'll need
+to open the specs/spec_helper.rb file and change the port used to run the
+fixtures server.
 
 For more details take a look at spec/fixtures/load_server.rb file.
 

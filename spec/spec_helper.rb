@@ -13,7 +13,7 @@ Spec::Runner.configure do |config|
 
   config.before :all do
     $specs_logger = Logger.new(File.join(File.dirname(__FILE__), '..', 'log', "specs.log"))
-    $pid = start_fixtures_server($specs_port = 4567)
+    $pid = start_fixtures_server($specs_port = 8909)
   end
 
   config.after :all do

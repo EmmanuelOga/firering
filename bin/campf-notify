@@ -3,51 +3,45 @@
 require 'firering'
 require 'shellwords'
 
-Firering.subdomain = ENV["CAMPFIRE_SUBDOMAIN"].to_s
-Firering.token     = ENV["CAMPFIRE_TOKEN"].to_s
+subdomain, token = ENV["CAMPFIRE_SUBDOMAIN"], ENV["CAMPFIRE_TOKEN"]
+room_name, icon_path = ARGV
 
-room_name = ARGV[0].to_s
-icon_path = ARGV[1].to_s
-
-if Firering.subdomain =~ /^\s*$/ || Firering.token =~ /^\s*$/ || room_name =~ /^\s*$/ || !File.exists?(icon_path)
-  puts "USAGE: campf-notify room-name notify-send-icon-path"
+if subdomain.to_s =~ /^\s*$/ || token.to_s =~ /^\s*$/ || room_name.to_s =~ /^\s*$/ || icon_path.nil? || !File.file?(icon_path)
+  puts "USAGE: campf-notify room-name icon-path"
   puts
-  puts "Icon path #{icon_path} is incorrect\n" unless File.exists?(icon_path)
-  puts "Room name #{room_name} is missing" unless room_name !~ /^\s*$/
-
+  puts "Icon path #{icon_path} is incorrect" unless icon_path && File.exists?(icon_path)
+  puts "Room name #{room_name} is missing"   unless room_name =~ /\S/
+  puts
   puts "The following environment variables are needed: "
   puts
-  puts "CAMPFIRE_SUBDOMAIN: #{Firering.subdomain}"
-  puts "CAMPFIRE_TOKEN:     #{Firering.token}"
+  puts "CAMPFIRE_SUBDOMAIN: #{subdomain || 'missing!'}"
+  puts "CAMPFIRE_TOKEN:     #{token || 'missing!'}"
   puts
-  exit
+  exit 1
 else
-  puts "connecting to #{Firering.subdomain}.#{Firering::HTTP.host}"
+  host = "http://#{subdomain}.campfirenow.com"
+  puts "connecting to #{host}"
 end
 
+conn = Firering::Connection.new(host) {|c| c.token = token }
+
 EM.run do
-  Firering.rooms do |rooms|
-    rooms.each do |room|
-      if room.name == room_name
+  conn.rooms do |rooms|
+    room = rooms.detect { |r| r.name == room_name }
 
-        puts "Joining #{room.name}"
+    unless room
+      puts "Could not find that room. Found rooms:"
+      rooms.each { |room| puts "  * #{room}" }
+      exit 1
+    end
 
-        Firering.room_join(room.id) do
-          Firering.stream(room.id) do |message|
+    puts "Streaming #{room}"
 
-            if message.from_user?
-              Firering.user(message.user_id) do |user|
-                m = "( #{user.name} ) #{message.body}"
-                system("notify-send -i #{icon_path.shellescape} -t 10000 Campfire #{m.shellescape}")
-              end
-            else
-              m = message.body.to_s
-              system("notify-send -i #{icon_path.shellescape} -t 10000 Campfire #{m.shellescape}") if m !~ /^\s*$/
-            end
-
-          end
-        end
-
+    room.stream do |message|
+      if message.from_user?
+        message.user { |user| system("notify-send -i #{icon_path.shellescape} -t 10000 Campfire #{ "( #{user} ) #{message}".shellescape }") }
+      else
+        system("notify-send -i #{icon_path.shellescape} -t 10000 Campfire #{message.to_s.shellescape}") if message.to_s =~ /\S/
       end
     end
   end
