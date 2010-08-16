@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = '1.3.5'
 
   s.name              = 'firering'
-  s.version           = '0.1.1'
-  s.date              = '2010-08-08'
+  s.version           = '1.0.0'
+  s.date              = '2010-08-16'
   s.rubyforge_project = 'firering'
 
   s.summary     = "Campfire API interface powered by EventMachine and Yajl."
@@ -43,16 +43,19 @@ Gem::Specification.new do |s|
     examples/update_room.rb
     firering.gemspec
     lib/firering.rb
+    lib/firering/connection.rb
     lib/firering/data.rb
     lib/firering/data/message.rb
     lib/firering/data/room.rb
     lib/firering/data/upload.rb
     lib/firering/data/user.rb
-    lib/firering/http.rb
     lib/firering/requests.rb
-    lib/firering/streaming.rb
+    log/.gitignore
+    spec/firering/connection_spec.rb
+    spec/firering/data/message_spec.rb
+    spec/firering/data/room_spec.rb
+    spec/firering/data/user_spec.rb
     spec/firering/data_spec.rb
-    spec/firering/requests_spec.rb
     spec/fixtures/headers/delete_messages_ID_star.json
     spec/fixtures/headers/get_room_ID.json
     spec/fixtures/headers/get_room_ID_live.json
@@ -90,8 +93,8 @@ Gem::Specification.new do |s|
     spec/fixtures/json/put_room_ID.json
     spec/fixtures/load_server.rb
     spec/fixtures/retrieve.rb
-    spec/fixtures/server.rb
     spec/spec_helper.rb
+    spec/support/helpers.rb
   ]
   # = MANIFEST =
 
