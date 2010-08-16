@@ -90,9 +90,9 @@ task :release => :build do
     exit!
   end
   sh "git commit --allow-empty -a -m 'Release #{version}'"
-  sh "git tag --tags"
+  sh "git tag v#{version}"
   sh "git push origin master"
-  sh "git push v#{version}"
+  sh "git push --tags"
   sh "gem push pkg/#{name}-#{version}.gem"
 end
 
