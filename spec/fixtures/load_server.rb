@@ -14,12 +14,22 @@ class FixtureServer < Struct.new(:logger)
 
   def read_fixture(req)
     return "It Works!" if req.path == "" || req.path == "/"
-    fixture = ([req.request_method.to_s.downcase] + req.path.split("/")).join("_").squeeze("_").gsub(/\d+/, "ID")
-    path = File.expand_path(File.join(File.dirname(__FILE__), "json", fixture))
-    logger.info("opening fixture: #{path}, #{File.file?(path)}")
-    output = File.file?(path) ? File.read(path) : "FIXTURE NOT FOUND #{path}"
-    logger.info("\n\n#{output}\n")
-    output
+
+    path = fixture_path(req)
+
+    if File.file?(path)
+      logger.info("Opening fixture: #{path}")
+      File.read(path).tap { |output| logger.info("\n\n#{output}\n") }
+    else
+      logger.info("Fixture not found: #{path}")
+      "FIXTURE NOT FOUND #{path}"
+    end
+  end
+
+  def fixture_path(req)
+    name_parts = [req.request_method.to_s.downcase] + req.path.split("/")
+    name = name_parts.join("_").squeeze("_").gsub(/\d+/, "ID")
+    File.expand_path(File.join(File.dirname(__FILE__), "json", name))
   end
 end
 
