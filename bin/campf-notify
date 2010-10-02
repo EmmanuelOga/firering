@@ -12,7 +12,7 @@ if subdomain.to_s =~ /^\s*$/ || token.to_s =~ /^\s*$/ || room_name.to_s =~ /^\s*
   puts "Icon path #{icon_path} is incorrect" unless icon_path && File.exists?(icon_path)
   puts "Room name #{room_name} is missing"   unless room_name =~ /\S/
   puts
-  puts "The following environment variables are needed: "
+  puts "The following environment variables will be used: "
   puts
   puts "CAMPFIRE_SUBDOMAIN: #{subdomain || 'missing!'}"
   puts "CAMPFIRE_TOKEN:     #{token || 'missing!'}"
