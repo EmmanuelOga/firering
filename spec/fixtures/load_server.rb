@@ -5,11 +5,52 @@ class MyLogger < Logger
 end
 
 class FixtureServer < Struct.new(:logger)
+
+  def initialize(*args)
+    super
+    @fails = 0
+  end
+
   def call(env)
     req = Rack::Request.new(env)
     res = Rack::Response.new
-    res.write read_fixture(req)
+
+    if adjusted_fails?(req)
+      res.write("OK")
+    else
+      if @fails > 0
+        log_hi("I was requested to fail, fails left: #{ @fails }")
+        @fails -= 1
+        res.write("")
+        res.status = 404
+      else
+        log_hi("Trying to open fixture")
+        res.write read_fixture(req)
+      end
+    end
+
     res.finish
+  end
+
+  def adjusted_fails?(req)
+    if req.path =~ /fail\/(\d+)/
+      log_hi("I was requested to fail next #{ @fails = $1.to_i } requests")
+      true
+    elsif req.path =~ /fail\/reset/
+      @fails = 0
+      log_hi("Fail count reset, next requests should not fail (unless a fixture is missing)")
+      true
+    else
+      false
+    end
+  end
+
+  def log(msg)
+    logger.info("  FIXTURES: #{msg}")
+  end
+
+  def log_hi(msg)
+    log("/" * 80) ; log(msg) ; log("/" * 80)
   end
 
   def read_fixture(req)
@@ -18,10 +59,10 @@ class FixtureServer < Struct.new(:logger)
     path = fixture_path(req)
 
     if File.file?(path)
-      logger.info("Opening fixture: #{path}")
+      log("Fixture found: #{path}")
       File.read(path).tap { |output| logger.info("\n\n#{output}\n") }
     else
-      logger.info("Fixture not found: #{path}")
+      log("Fixture not found: #{path}")
       "FIXTURE NOT FOUND #{path}"
     end
   end
@@ -65,4 +106,12 @@ def start_fixtures_server(port)
   raise "Could not run the fixtures server" unless spawned
 
   pid
+end
+
+def make_fixture_server_fail_times(times)
+  open(URI("http://localhost:#{$specs_port}/fail/#{times}"))
+end
+
+def reset_fixture_server_fails
+  make_fixture_server_fail_times("reset")
 end
