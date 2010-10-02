@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.date              = '2010-10-01'
   s.rubyforge_project = 'firering'
 
-  s.summary     = "Campfire API interface powered by EventMachine and Yajl."
-  s.description = "Campfire API interface powered by EventMachine and Yajl."
+  s.summary     = "Campfire API interface powered by eventmachine em-http-request and yajl-ruby."
+  s.description = "Campfire API interface powered by eventmachine em-http-request and yajl-ruby."
 
   s.authors  = ["Emmanuel Oga"]
   s.email    = 'EmmanuelOga@gmail.com'
