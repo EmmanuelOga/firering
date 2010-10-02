@@ -5,7 +5,7 @@ require 'yajl'
 require 'em-http'
 
 module Firering
-  VERSION = '1.0.1'
+  VERSION = '1.0.2'
 
   class Error < StandardError; end
 
