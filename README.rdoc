@@ -1,6 +1,6 @@
 = firering
 
-Campfire API interface powered by EventMachine and Yajl.
+Campfire API interface powered by eventmachine, em-http-request and yajl-ruby.
 
   require 'firering'
 
