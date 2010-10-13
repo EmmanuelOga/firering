@@ -77,14 +77,14 @@ module Firering
     # The Streaming API allows you to monitor a room in real time. The
     # authenticated user must already have joined the room in order to use this
     # API.
-    def stream(room_id, &callback)
+    def stream(room, &callback)
       parser = Yajl::Parser.new(:symbolize_keys => true)
 
       parser.on_parse_complete = proc do |data|
         callback.call(Firering::Message.instantiate(self, data)) if callback
       end
 
-      uri = streaming_host.join("/room/#{room_id}/live.json")
+      uri = streaming_host.join("/room/#{room.id}/live.json")
       logger.info("performing streaming request to #{uri.to_s}")
       http = EventMachine::HttpRequest.new(uri).get(parameters)
 
@@ -93,7 +93,7 @@ module Firering
           parser << chunk; reset_retries_counter
         rescue Yajl::ParseError
           perform_retry(http) do
-            stream(room_id, &callback)
+            room.stream(&callback)
           end
         end
       end
@@ -104,7 +104,7 @@ module Firering
       # few seconds before trying to reconnect.  Formats
       http.errback do
         perform_retry(http) do
-          stream(room_id, &callback)
+          room.stream(&callback)
         end
       end
 

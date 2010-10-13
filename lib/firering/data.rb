@@ -29,7 +29,7 @@ module Firering
     def initialize_attributes(data, base_key = nil)
       @_attributes = data.is_a?(Hash) ? data : Yajl::Parser.parse(data, :symbolize_keys => true)
       @_attributes = @_attributes[base_key] if base_key
-
+      @_attributes ||= Hash.new
       @_attributes.each do |key, val|
         @_attributes[key] = Date.parse(val) rescue val if key.to_s =~ /(_at|_on)$/
       end

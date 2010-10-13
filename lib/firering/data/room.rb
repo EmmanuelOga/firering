@@ -8,7 +8,7 @@ class Firering::Room < Firering::Data
   alias_method :open_to_guests?, :open_to_guests
 
   def stream(&callback)
-    join { |data, http| connection.stream(id, &callback) }
+    join { |data, http| connection.stream(self, &callback) }
   end
 
   # we perform a request each time so

@@ -13,7 +13,7 @@ describe Firering::Connection do
 
   it "stream messages" do
     EM.run {
-      conn.stream(304355) do |message|
+      conn.stream(Firering::Room.instantiate(conn, :id => 304355)) do |message|
         message.should be_an_instance_of(Firering::Message)
       end
 
@@ -29,7 +29,7 @@ describe Firering::Connection do
     messages = []
 
     EM.run {
-      conn.stream(304355) do |message|
+      conn.stream(Firering::Room.instantiate(conn, :id => 304355)) do |message|
         messages << message
       end
       EM.add_timer(conn.max_retries * conn.retry_delay + 1) do
@@ -47,7 +47,7 @@ describe Firering::Connection do
 
     begin
       EM.run {
-        conn.stream(304355) { |message| messages << message }
+        conn.stream(Firering::Room.instantiate(conn, :id => 304355)) { |message| messages << message }
 
         EM.add_timer(conn.max_retries * conn.retry_delay + 1) { EM.stop }
       }
