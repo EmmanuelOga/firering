@@ -1,12 +1,14 @@
 require 'spec_helper'
 
-class TestData < Firering::Data
-  data_attributes :a, :b
+TestData = Struct.new(:connection, :a, :b)
+
+class TestData
+  extend Firering::Instantiator
 end
 
-describe Firering::Data do
+describe Firering::Instantiator do
 
-  it "initializes an object from a hash with a base key, and defines accessors" do
+  it "initializes an object from a hash with a base key" do
     object = TestData.instantiate(:connection, {:test_data => { :a => 1, :b => 2}}, :test_data)
     object.a.should == 1
     object.b.should == 2
