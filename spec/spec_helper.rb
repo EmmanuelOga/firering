@@ -6,7 +6,6 @@ require 'spec'
 require 'spec/autorun'
 require 'fixtures/load_server'
 require 'support/helpers'
-require 'ap'
 
 Spec::Runner.configure do |config|
   config.include Helpers
