@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = '1.3.5'
 
   s.name              = 'firering'
-  s.version           = '1.0.3'
-  s.date              = '2010-10-12'
+  s.version           = '1.0.4'
+  s.date              = '2011-02-24'
   s.rubyforge_project = 'firering'
 
   s.summary     = "Campfire API interface powered by eventmachine em-http-request and yajl-ruby."
@@ -44,11 +44,11 @@ Gem::Specification.new do |s|
     firering.gemspec
     lib/firering.rb
     lib/firering/connection.rb
-    lib/firering/data.rb
     lib/firering/data/message.rb
     lib/firering/data/room.rb
     lib/firering/data/upload.rb
     lib/firering/data/user.rb
+    lib/firering/instantiator.rb
     lib/firering/requests.rb
     log/.gitignore
     spec/firering/connection_spec.rb

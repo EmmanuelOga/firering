@@ -78,6 +78,10 @@ For more details take a look at spec/fixtures/load_server.rb file.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
+== Contributors
+
+* indirect (Andre Arko), https://github.com/EmmanuelOga/firering/pull/1
+
 == Copyright
 
 Copyright (c) 2010 Emmanuel Oga. See LICENSE for details.
