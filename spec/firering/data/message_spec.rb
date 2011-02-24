@@ -39,7 +39,7 @@ describe Firering::Message do
         message.should be_text
         message.room_id.should == 177718
         message.created_at.should == Time.parse("2009/06/02 21:20:32 +0000")
-        message.body.should == "q: should i add :case_sensitive =\u003E false to the validation of title name? Looks harmless but who knows..."
+        message.body.should == "q: should i add :case_sensitive => false to the validation of title name? Looks harmless but who knows..."
         message.id.should == 134405854
         message.user_id.should == 415731
 
