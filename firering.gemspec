@@ -23,13 +23,12 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.rdoc LICENSE]
 
-  s.add_dependency('eventmachine', [">= 0.12.10"])
-  s.add_dependency('em-http-request', [">= 0.2.10"])
-  s.add_dependency('yajl-ruby', [">= 0.7.6"])
+  s.add_dependency('eventmachine', ["~> 0.12.10"])
+  s.add_dependency('em-http-request', ["~> 0.3.0"])
+  s.add_dependency('yajl-ruby', ["~> 0.7.6"])
 
-  s.add_development_dependency('rspec', [">= 1.3.0"])
+  s.add_development_dependency('rspec', ["~> 2.1.0"])
   s.add_development_dependency('rack', [">= 1.2.0"])
-  s.add_development_dependency('sinatra', [">= 1.0.0"])
 
   # = MANIFEST =
   s.files = %w[
