@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency('yajl-ruby', [">= 0.7.6"])
 
   s.add_development_dependency('rspec', [">= 1.3.0"])
+  s.add_development_dependency('rack', [">= 1.2.0"])
   s.add_development_dependency('sinatra', [">= 1.0.0"])
 
   # = MANIFEST =
