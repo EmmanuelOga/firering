@@ -101,7 +101,7 @@ module Firering
       # Campfire servers will try to hold the streaming connections open indefinitely.
       # However, API clients must be able to handle occasional timeouts or
       # disruptions. Upon unexpected disconnection, API clients should wait for a
-      # few seconds before trying to reconnect.  Formats
+      # few seconds before trying to reconnect.
       http.errback do
         perform_retry(http) do
           room.stream(&callback)
