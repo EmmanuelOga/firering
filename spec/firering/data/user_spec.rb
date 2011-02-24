@@ -7,7 +7,7 @@ describe Firering::User do
       conn.user(415731) do |user|
 
         user.type.should == "Member"
-        user.created_at.should == Date.parse("2009/01/27 19:54:36 +0000")
+        user.created_at.should == Time.parse("2009/01/27 19:54:36 +0000")
         user.email_address.should == "eoga@mail.com"
         user.should_not be_admin
         user.id.should == 415731

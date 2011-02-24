@@ -14,7 +14,7 @@ describe Firering::Message do
           message = messages.first
           message.should be_timestamp
           message.room_id.should == 304355
-          message.created_at.should == Date.parse("2010/05/29 22:05:00 +0000")
+          message.created_at.should == Time.parse("2010/05/29 22:05:00 +0000")
           message.body.should be_nil
           message.id.should == 224587718
           message.user_id.should be_nil
@@ -38,7 +38,7 @@ describe Firering::Message do
         message = messages.last
         message.should be_text
         message.room_id.should == 177718
-        message.created_at.should == Date.parse("2009/06/02 21:20:32 +0000")
+        message.created_at.should == Time.parse("2009/06/02 21:20:32 +0000")
         message.body.should == "q: should i add :case_sensitive =\u003E false to the validation of title name? Looks harmless but who knows..."
         message.id.should == 134405854
         message.user_id.should == 415731

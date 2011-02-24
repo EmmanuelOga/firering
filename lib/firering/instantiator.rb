@@ -10,7 +10,7 @@ module Firering
       attributes ||= Hash.new
 
       attributes.each do |key, val|
-        value = ( key.to_s =~ /(_at|_on)$/ ) ? (Date.parse(val) rescue val) : val
+        value = ( key.to_s =~ /(_at|_on)$/ ) ? (Time.parse(val) rescue val) : val
         instance.send("#{key}=", value)
       end
 

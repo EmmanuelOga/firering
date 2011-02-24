@@ -7,8 +7,8 @@ describe Firering::Room do
       conn.room(304355) do |room|
 
         room.name.should == "test2"
-        room.created_at.should == Date.parse("2010/05/29 21:38:02 +0000")
-        room.updated_at.should == Date.parse("2010/05/29 21:38:02 +0000")
+        room.created_at.should == Time.parse("2010/05/29 21:38:02 +0000")
+        room.updated_at.should == Time.parse("2010/05/29 21:38:02 +0000")
         room.topic.should == "this and the test room should be deleted by a campfire admin."
         room.should_not be_full
         room.id.should == 304355
@@ -66,7 +66,7 @@ describe Firering::Room do
 
           message.should be_paste
           message.room_id.should == 304355
-          message.created_at.should == Date.parse("2010/05/29 22:41:34 +0000")
+          message.created_at.should == Time.parse("2010/05/29 22:41:34 +0000")
           message.body.should == "paste\ntext"
           message.id.should == 224590114
           message.user_id.should == 415731
@@ -92,7 +92,7 @@ describe Firering::Room do
 
           message.should be_paste
           message.room_id.should == 304355
-          message.created_at.should == Date.parse("2010/05/29 22:41:34 +0000")
+          message.created_at.should == Time.parse("2010/05/29 22:41:34 +0000")
           message.body.should == "paste\ntext"
           message.id.should == 224590114
           message.user_id.should == 415731
