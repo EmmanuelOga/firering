@@ -84,9 +84,12 @@ module Firering
         callback.call(Firering::Message.instantiate(self, data)) if callback
       end
 
+      # timeout 5s because the campfire streaming API chunked connection sends
+      # "1\r\n \r\n" every 3s, and we want to bail as soon as that stops
+      options = {:keepalive => true, :timeout => 5}
+
       uri = streaming_host.join("/room/#{room.id}/live.json")
       logger.info("performing streaming request to #{uri.to_s}")
-      options = {:keepalive => true, :timeout => 0}
       http = EventMachine::HttpRequest.new(uri).get(options.merge(parameters))
 
       http.stream do |chunk|
