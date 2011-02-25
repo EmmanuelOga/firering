@@ -86,7 +86,8 @@ module Firering
 
       uri = streaming_host.join("/room/#{room.id}/live.json")
       logger.info("performing streaming request to #{uri.to_s}")
-      http = EventMachine::HttpRequest.new(uri).get(parameters)
+      options = {:keepalive => true, :timeout => 0}
+      http = EventMachine::HttpRequest.new(uri).get(options.merge(parameters))
 
       http.stream do |chunk|
         begin
