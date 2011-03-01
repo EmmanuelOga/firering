@@ -107,6 +107,16 @@ module Firering
       # disruptions. Upon unexpected disconnection, API clients should wait for a
       # few seconds before trying to reconnect.
       http.errback do
+        logger.error("http error #{http.error}. Trying again in #{retry_delay} seconds...")
+        perform_retry(http) do
+          room.stream(&callback)
+        end
+      end
+
+      # Campfire will _also_ actively close the connection. Correctly. Presumably,
+      # this only happens when they deploy, but it does actually happen.
+      http.callback do
+        logger.error("http connection closed. Trying again in #{retry_delay} seconds...")
         perform_retry(http) do
           room.stream(&callback)
         end
@@ -126,8 +136,6 @@ module Firering
           logger.error("Firering performed #{performed_retries} but did not get any answer. Increase Firering::Connection.max_retries or check your internet connection.")
           raise Firering::Connection::HTTPError.new(http)
         else
-          logger.error("http error #{http.error}. Trying again in #{retry_delay} seconds...")
-
           EventMachine::add_timer(retry_delay) do
             logger.info("Reconnecting...")
             increase_retries_counter
