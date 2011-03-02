@@ -80,7 +80,9 @@ For more details take a look at spec/fixtures/load_server.rb file.
 
 == Contributors
 
-* indirect (Andre Arko), https://github.com/EmmanuelOga/firering/pull/1 and https://github.com/EmmanuelOga/firering/pull/2/files
+* indirect (Andre Arko), https://github.com/EmmanuelOga/firering/pull/1 ,
+                         https://github.com/EmmanuelOga/firering/pull/2 ,
+                         https://github.com/EmmanuelOga/firering/pull/3
 
 == Copyright
 
