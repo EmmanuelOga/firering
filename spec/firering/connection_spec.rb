@@ -41,7 +41,7 @@ describe Firering::Connection do
   end
 
   it "raises an exception if the connection drops and performed enough retries" do
-    conn.retry_delay = 1
+    conn.retry_delay = 0
     make_fixture_server_fail_times(conn.max_retries + 1)
     messages = []
 
