@@ -15,7 +15,7 @@ module Firering
     attr_reader :performed_retries
 
     def initialize(host, streaming_host = "https://streaming.campfirenow.com")
-      @retry_delay, @redirects, @max_retries, @performed_retries = 2, 1, 2, 0
+      @retry_delay, @redirects, @max_retries, @performed_retries = 2, 1, -1, 0
       self.host, self.streaming_host = host, streaming_host
       yield self if block_given?
     end
@@ -126,14 +126,14 @@ module Firering
     end
 
     def max_retries_reached?
-      @performed_retries && @performed_retries >= @max_retries
+      @performed_retries && @max_retries > 0 && @performed_retries >= @max_retries
     end
 
     def perform_retry(http, &callback)
       if EventMachine.reactor_running?
 
         if max_retries_reached?
-          logger.error("Firering performed #{performed_retries} but did not get any answer. Increase Firering::Connection.max_retries or check your internet connection.")
+          logger.error("Firering performed #{performed_retries} but did not get any answer. Increase Firering::Connection.max_retries (< 0 means retry forever) or check your internet connection.")
           raise Firering::Connection::HTTPError.new(http)
         else
           EventMachine::add_timer(retry_delay) do
