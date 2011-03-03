@@ -11,6 +11,7 @@ Campfire API interface powered by eventmachine, em-http-request and yajl-ruby.
   conn = Firering::Connection.new("http://#{subdomain}.campfirenow.com") do |c|
     c.login = login
     c.password = password
+    c.max_retries = 10 # default to -1, which means perform connection retries on drop forever.
   end
 
   EM.run do
