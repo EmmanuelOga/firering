@@ -15,7 +15,13 @@ module Firering
         if instance.respond_to?(setter)
           instance.send(setter, value)
         else
-          Kernel.warn "WARNING: Tried to set #{setter} #{value.inspect} on a #{instance.class} instance but it didn't respond"
+          warning = "WARNING: Tried to set #{setter} #{value.inspect} on a #{instance.class} instance but it didn't respond. Probably the API got updated, please report this! (https://github.com/EmmanuelOga/firering/issues)"
+
+          if conn && conn.logger
+            conn.logger.warn warning
+          else
+            Kernel.warn warning
+          end
         end
       end
 
