@@ -27,7 +27,12 @@ module Firering
     # multi: if true, gets all the users from each room as Firering::User objects
     def rooms(&callback)
       http(:get, "/rooms.json") do |data, http|
-        callback.call((data[:rooms] || []).map{|room| Firering::Room.instantiate(self, room)}) if callback
+        if data[:rooms]
+          callback.call(data[:rooms].map{|room| Firering::Room.instantiate(self, room)}) if callback
+        else
+          logger.error(http.response)
+          callback.call([])
+        end
       end
     end
 
