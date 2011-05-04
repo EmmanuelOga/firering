@@ -19,7 +19,7 @@ if subdomain.to_s =~ /^\s*$/ || token.to_s =~ /^\s*$/ || room_name.to_s =~ /^\s*
   puts
   exit 1
 else
-  host = "http://#{subdomain}.campfirenow.com"
+  host = "https://#{subdomain}.campfirenow.com"
   puts "connecting to #{host}"
 end
 
@@ -27,22 +27,26 @@ conn = Firering::Connection.new(host) {|c| c.token = token }
 
 EM.run do
   conn.rooms do |rooms|
-    room = rooms.detect { |r| r.name == room_name }
+    room = rooms.detect { |r| room_name =~ /#{r.name}|#{r.id}/i }
 
-    unless room
-      puts "Could not find that room. Found rooms:"
-      rooms.each { |room| puts "  * #{room}" }
-      exit 1
-    end
+    if room
+      puts "Streaming #{room}"
 
-    puts "Streaming #{room}"
-
-    room.stream do |message|
-      if message.from_user?
-        message.user { |user| system("notify-send -i #{icon_path.shellescape} -t 10000 Campfire #{ "( #{user} ) #{message}".shellescape }") }
-      else
-        system("notify-send -i #{icon_path.shellescape} -t 10000 Campfire #{message.to_s.shellescape}") if message.to_s =~ /\S/
+      room.stream do |message|
+        if message.from_user?
+          message.user { |user| system("notify-send -i #{icon_path.shellescape} -t 10000 Campfire #{ "( #{user} ) #{message}".shellescape }") }
+        else
+          system("notify-send -i #{icon_path.shellescape} -t 10000 Campfire #{message.to_s.shellescape}") if message.to_s =~ /\S/
+        end
       end
+    else
+      if rooms.empty?
+        puts "Could not find any rooms on #{host}. Check your host/credentials?"
+      else
+        puts "Could not find #{room_name.inspect} room on #{host}, but found: "
+        rooms.each { |room| puts "  * #{room}" }
+      end
+      EM.stop
     end
   end
 
