@@ -10,8 +10,13 @@ module Firering
       attributes ||= Hash.new
 
       attributes.each do |key, val|
+        setter = "#{key}="
         value = ( key.to_s =~ /(_at|_on)$/ ) ? (Time.parse(val) rescue val) : val
-        instance.send("#{key}=", value)
+        if instance.respond_to?(setter)
+          instance.send(setter, value)
+        else
+          Kernel.warn "WARNING: Tried to set #{setter} #{value.inspect} on a #{instance.class} instance but it didn't respond"
+        end
       end
 
       callback.call(instance) if callback
