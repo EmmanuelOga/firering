@@ -84,6 +84,7 @@ For more details take a look at spec/fixtures/load_server.rb file.
 * indirect (Andre Arko), https://github.com/EmmanuelOga/firering/pull/1 ,
                          https://github.com/EmmanuelOga/firering/pull/2 ,
                          https://github.com/EmmanuelOga/firering/pull/3
+* caius (Caius Durling), https://github.com/EmmanuelOga/firering/pull/5
 
 == Copyright
 

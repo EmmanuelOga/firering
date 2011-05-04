@@ -5,7 +5,7 @@ require 'yajl'
 require 'em-http'
 
 module Firering
-  VERSION = '1.0.7'
+  VERSION = '1.1.0'
 
   Error = Class.new(StandardError)
 
