@@ -7,6 +7,7 @@ module Firering
     alias_method :locked?, :locked
     alias_method :full?, :full
     alias_method :open_to_guests?, :open_to_guests
+    alias_method :to_s, :name
 
     def stream(&callback)
       join { |data, http| connection.stream(self, &callback) }
