@@ -85,6 +85,7 @@ For more details take a look at spec/fixtures/load_server.rb file.
                          https://github.com/EmmanuelOga/firering/pull/2 ,
                          https://github.com/EmmanuelOga/firering/pull/3
 * caius (Caius Durling), https://github.com/EmmanuelOga/firering/pull/5
+* cesario (Franck Verrot), https://github.com/EmmanuelOga/firering/pull/6
 
 == Copyright
 
