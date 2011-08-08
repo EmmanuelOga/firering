@@ -126,7 +126,7 @@ module Firering
     end
 
     def max_retries_reached?
-      @performed_retries && @max_retries > 0 && @performed_retries >= @max_retries
+      @performed_retries && @max_retries >= 0 && @performed_retries >= @max_retries
     end
 
     def perform_retry(http, &callback)

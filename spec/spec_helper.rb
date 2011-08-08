@@ -9,6 +9,7 @@ require 'support/helpers'
 
 RSpec.configure do |config|
   config.include Helpers
+# config.filter_run :focus => true
 
   config.before :all do
     $specs_logger = Logger.new(File.join(File.dirname(__FILE__), '..', 'log', "specs.log"))
