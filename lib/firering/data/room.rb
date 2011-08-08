@@ -7,6 +7,7 @@ module Firering
     alias_method :locked?, :locked
     alias_method :full?, :full
     alias_method :open_to_guests?, :open_to_guests
+    alias_method :to_s, :name
 
     def stream(&callback)
       join { |data, http| connection.stream(self, &callback) }
@@ -91,7 +92,7 @@ module Firering
     # :type => "TextMessage",  :body => "Hello"
     def speak(data, &callback)
       connection.http(:post, "/room/#{id}/speak.json", "message" => data) do |data, http| # Response Status: 201 Created
-        callback.call(Firering::Message.instantiate(connection, data, "message"))
+        callback.call(Firering::Message.instantiate(connection, data, "message")) if callback
       end
     end
 
