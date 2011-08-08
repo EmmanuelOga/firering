@@ -11,7 +11,7 @@ module Firering
       type == "Member"
     end
 
-    def gest?
+    def guest?
       type == "Guest"
     end
 

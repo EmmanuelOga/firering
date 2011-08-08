@@ -13,6 +13,9 @@ describe Firering::User do
         user.id.should == 415731
         user.name.should == "Emmanuel"
 
+        user.member?.should be true
+        user.guest?.should  be false
+
         EM.stop
       end
     }
