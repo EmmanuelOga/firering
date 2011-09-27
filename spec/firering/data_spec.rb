@@ -20,7 +20,9 @@ describe Firering::Instantiator do
   end
 
   it "warns when attributes don't exist on the struct" do
-    @logger.should_receive(:warn).with("Couldn't set attribute 'c' to value '3' on TestData object")
+    warning = "WARNING: Could not set attribute 'c' to value '3' on TestData object."
+    warning << " It is likely the Campfire API has changed. Please report this! (https://github.com/EmmanuelOga/firering/issues)"
+    @logger.should_receive(:warn).with(warning)
     object = TestData.instantiate(@connection, {:test_data => {:c => 3}}, :test_data)
     lambda { object.c }.should raise_error(NoMethodError)
   end
