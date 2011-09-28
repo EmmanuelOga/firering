@@ -64,8 +64,14 @@ module Firering
       http.callback {
         reset_retries_counter
         if callback
-          data = Yajl::Parser.parse(http.response, :symbolize_keys => true) rescue Hash.new
-          callback.call(data, http)
+          begin
+            data = Yajl::Parser.parse(http.response, :symbolize_keys => true)
+            callback.call(data, http)
+          rescue Yajl::ParseError
+            perform_retry(http) do
+              http(method, path, data, &callback)
+            end
+          end
         end
       }
 

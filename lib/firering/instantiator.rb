@@ -15,13 +15,9 @@ module Firering
         if instance.respond_to?(setter)
           instance.send(setter, value)
         else
-          warning = "WARNING: Tried to set #{setter} #{value.inspect} on a #{instance.class} instance but it didn't respond. Probably the API got updated, please report this! (https://github.com/EmmanuelOga/firering/issues)"
-
-          if conn && conn.logger
-            conn.logger.warn warning
-          else
-            Kernel.warn warning
-          end
+          msg = "WARNING: Could not set attribute '#{key}' to value '#{value}' on #{self} object."
+          msg << " It is likely the Campfire API has changed. Please report this! (https://github.com/EmmanuelOga/firering/issues)"
+          conn.logger.warn msg
         end
       end
 
