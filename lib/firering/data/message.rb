@@ -1,5 +1,5 @@
 module Firering
-  Message = Struct.new(:connection, :id, :room_id, :user_id, :body, :created_at, :type)
+  Message = Struct.new(:connection, :id, :room_id, :user_id, :body, :created_at, :type, :starred)
 
   class Message
     extend Instantiator
