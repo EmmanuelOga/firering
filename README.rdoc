@@ -88,6 +88,7 @@ For more details take a look at spec/fixtures/load_server.rb file.
 * caius (Caius Durling), https://github.com/EmmanuelOga/firering/pull/5
 * cesario (Franck Verrot), https://github.com/EmmanuelOga/firering/pull/6
 * PizzaPowered, https://github.com/PizzaPowered/firering
+* gdb (Greg Brockman), https://github.com/EmmanuelOga/firering/pull/8
 
 == Copyright
 
