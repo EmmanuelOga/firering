@@ -3,8 +3,8 @@ require 'yajl'
 require 'shellwords'
 require 'fileutils'
 
-HOST = "broadspire"
-TOKEN = "90454e67ebe1e202034a49266cc0abf0de7e538e"
+HOST = "HOST"
+TOKEN = "TOKEN"
 
 Dir["{json,headers}/*"].each { |f| FileUtils.rm f }
 

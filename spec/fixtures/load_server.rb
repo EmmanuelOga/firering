@@ -19,8 +19,8 @@ class FixtureServer < Struct.new(:logger)
       res.write("OK")
     else
       if @fails > 0
-        log_hi("I was requested to fail, fails left: #{ @fails }")
         @fails -= 1
+        log_hi("I was requested to fail, fails left: #{ @fails }")
         res.write("")
         res.status = 404
       else
@@ -77,6 +77,7 @@ end
 def start_fixtures_server(port)
   pid = fork do
     require 'rack'
+    require 'thin'
     require 'logger'
 
     $stdout = $stderr = File.open("/dev/null", "w")
@@ -88,7 +89,7 @@ def start_fixtures_server(port)
     app = Rack::ShowStatus.new(Rack::ShowExceptions.new(app))
     app = Rack::CommonLogger.new(app, logger)
 
-    Rack::Handler::WEBrick.run app, :Port => $specs_port
+    Rack::Handler::Thin.run app, :Port => $specs_port
   end
 
   spawned, start = false, Time.now
