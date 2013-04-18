@@ -23,8 +23,8 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.rdoc LICENSE]
 
-  s.add_dependency('eventmachine', ["~> 0.12.10"])
-  s.add_dependency('em-http-request', ["~> 0.3.0"])
+  s.add_dependency('eventmachine', ["~> 1.0.3"])
+  s.add_dependency('em-http-request', ["~> 1.0.3"])
   s.add_dependency('yajl-ruby', ["~> 0.7.6"])
 
   s.add_development_dependency('rspec', ["~> 2.6.0"])
