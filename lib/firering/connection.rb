@@ -11,12 +11,14 @@ module Firering
     attr_accessor :password
     attr_accessor :token
     attr_accessor :login
+    attr_accessor :user_agent
 
     attr_reader :performed_retries
 
     def initialize(host, streaming_host = "https://streaming.campfirenow.com")
       @retry_delay, @redirects, @max_retries, @performed_retries = 2, 1, -1, 0
       self.host, self.streaming_host = host, streaming_host
+      self.user_agent = "firering em-http library version 1.3.0"
       yield self if block_given?
     end
 
@@ -43,7 +45,7 @@ module Firering
     def parameters(data = nil)
       parameters = {
         :redirects => redirects,
-        :head => auth_headers.merge("Content-Type" => "application/json")
+        :head => auth_headers.merge("Content-Type" => "application/json").merge('User-Agent' => user_agent)
       }
       parameters.merge!(:body => data.is_a?(String) ? data : Yajl::Encoder.encode(data)) if data
       parameters
