@@ -18,7 +18,7 @@ module Firering
     def initialize(host, streaming_host = "https://streaming.campfirenow.com")
       @retry_delay, @redirects, @max_retries, @performed_retries = 2, 1, -1, 0
       self.host, self.streaming_host = host, streaming_host
-      self.user_agent = "firering em-http library version 1.3.0"
+      self.user_agent = "firering library version #{VERSION}"
       yield self if block_given?
     end
 
