@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.default_executable = 'campf-notify'
 
   s.rdoc_options = ["--charset=UTF-8"]
-  s.extra_rdoc_files = %w[README.rdoc LICENSE]
+  s.extra_rdoc_files = %w[README.md LICENSE]
 
   s.add_dependency('eventmachine', ["~> 1.0.3"])
   s.add_dependency('em-http-request', ["~> 1.0.3"])
@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
   s.files = %w[
     Gemfile
     LICENSE
-    README.rdoc
+    README.md
     Rakefile
     bin/campf-notify
     examples/authenticate.rb

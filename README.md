@@ -1,40 +1,62 @@
-= firering
+# firering
 
 Campfire API interface powered by eventmachine, em-http-request and yajl-ruby.
 
-  require 'firering'
+## Sample code
 
-  print "Enter subdomain: "; subdomain = gets.chomp
-  print "Enter user: "     ; login     = gets.chomp
-  print "Enter password: " ; password  = gets.chomp
+```ruby
+require 'firering'
 
-  conn = Firering::Connection.new("http://#{subdomain}.campfirenow.com") do |c|
-    c.login = login
-    c.password = password
-    c.max_retries = 10 # default to -1, which means perform connection retries on drop forever.
-  end
+print "Enter subdomain: "; subdomain = gets.chomp
+print "Enter user: "     ; login     = gets.chomp
+print "Enter password: " ; password  = gets.chomp
 
-  EM.run do
-    conn.authenticate do |user|
-      conn.rooms do |rooms|
+conn = Firering::Connection.new("http://#{subdomain}.campfirenow.com") do |c|
+  c.login = login
+  c.password = password
+  c.max_retries = 10 # default to -1, which means perform connection retries on drop forever.
+end
 
-        rooms.each do |room|
-          if room.name == "Room Name"
+EM.run do
+  conn.authenticate do |user|
+    conn.rooms do |rooms|
 
-            room.stream do |message|
-              message.user { |user| puts "#{user}: #{message}" }
-            end
+      rooms.each do |room|
+        if room.name == "Room Name"
 
+          room.stream do |message|
+            message.user { |user| puts "#{user}: #{message}" }
           end
+
         end
-
       end
-    end
 
-    trap("INT") { EM.stop }
+    end
   end
 
-= campf-notify
+  trap("INT") { EM.stop }
+end
+```
+
+## Specifying connection options:
+
+An user agent can be specified.
+HTTP Options correspond to [EM::HTTPRequest options](https://github.com/igrigorik/em-http-request/wiki/Issuing-Requests):
+
+```ruby
+conn = Firering::Connection.new("http://#{subdomain}.campfirenow.com") do |conn|
+  conn.user_agent = "My Cool App 1.0"
+  conn.http_options = {
+    proxy: {
+      host: url,
+      port: port,
+      authorization: [username, password]
+    }
+  }
+end
+```
+
+## campf-notif
 
 The gem bundles an executable script for spawning libnotify powered
 notifications.  To be able to use it, check your distro package repositories
@@ -52,7 +74,7 @@ Once the variables are set, run the script as follows:
 
 And watch the lovely notifications each time something is posted to a room.
 
-== Running the specs
+## Running the specs
 
 When the specs are run a process is forked where a Rack application is run.
 This rack application serves all the fixtured responses that mimic the working
@@ -63,13 +85,13 @@ fixtures server.
 
 For more details take a look at spec/fixtures/load_server.rb file.
 
-== TODO
+## TODO
 
 * Better API documentation
 * Post files to a room
 * Retrieve recently uploaded files
 
-== Note on Patches/Pull Requests
+## Note on Patches/Pull Requests
 
 * Fork the project.
 * Make your feature addition or bug fix.
@@ -79,17 +101,10 @@ For more details take a look at spec/fixtures/load_server.rb file.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-== Contributors
+## Contributors
 
-* indirect (Andre Arko), https://github.com/EmmanuelOga/firering/pull/1 ,
-                         https://github.com/EmmanuelOga/firering/pull/2 ,
-                         https://github.com/EmmanuelOga/firering/pull/3
-                         https://github.com/EmmanuelOga/firering/pull/7
-* caius (Caius Durling), https://github.com/EmmanuelOga/firering/pull/5
-* cesario (Franck Verrot), https://github.com/EmmanuelOga/firering/pull/6
-* PizzaPowered, https://github.com/PizzaPowered/firering
-* gdb (Greg Brockman), https://github.com/EmmanuelOga/firering/pull/8
+See https://github.com/EmmanuelOga/firering/graphs/contributors
 
-== Copyright
+## Copyright
 
-Copyright (c) 2010 Emmanuel Oga. See LICENSE for details.
+Copyright (c) 2013 Emmanuel Oga. See LICENSE for details.
