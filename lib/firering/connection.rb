@@ -13,6 +13,10 @@ module Firering
     attr_accessor :login
     attr_accessor :user_agent
 
+    # HTTP Options correspond to EM::HTTPRequest options:
+    # https://github.com/igrigorik/em-http-request/wiki/Issuing-Requests
+    attr_accessor :http_options
+
     attr_reader :performed_retries
 
     def initialize(host, streaming_host = "https://streaming.campfirenow.com")
@@ -55,7 +59,7 @@ module Firering
       uri = host.join(path)
       logger.info("performing request to #{uri}")
 
-      http = EventMachine::HttpRequest.new(uri).send(method, parameters(data))
+      http = EventMachine::HttpRequest.new(uri, http_options || {}).send(method, parameters(data))
 
       http.errback do
         perform_retry(http) do
