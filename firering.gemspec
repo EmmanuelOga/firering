@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency('eventmachine', ["~> 1.0.3"])
   s.add_dependency('em-http-request', ["~> 1.0.3"])
-  s.add_dependency('yajl-ruby', ["~> 0.7.6"])
+  s.add_dependency('yajl-ruby', ["~> 1.1.0"])
 
   s.add_development_dependency('rspec', ["~> 2.6.0"])
   s.add_development_dependency('rack', [">= 1.2.0"])
