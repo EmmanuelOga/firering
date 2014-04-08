@@ -17,7 +17,7 @@ module Firering
         else
           msg = "WARNING: Could not set attribute '#{key}' to value '#{value}' on #{self} object."
           msg << " It is likely the Campfire API has changed. Please report this! (https://github.com/EmmanuelOga/firering/issues)"
-          conn.logger.warn msg
+          instance.connection.logger.warn msg
         end
       end
 
