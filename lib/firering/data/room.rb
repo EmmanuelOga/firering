@@ -23,6 +23,10 @@ module Firering
       end
     end
 
+    def logger
+      self.connection.logger
+    end
+
     # Updates an existing room. Only admins can rename a room, although any
     # user (except guests) may set the topic. Omitting either key results in
     # that attribute being ignored. To remove a room topic, simply provide an
