@@ -4,3 +4,4 @@ doc
 coverage
 rdoc
 pkg
+Gemfile.lock
