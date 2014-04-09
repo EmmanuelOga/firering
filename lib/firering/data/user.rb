@@ -1,5 +1,5 @@
 module Firering
-  User = Struct.new(:connection, :id, :name, :email_address, :admin, :created_at, :type, :api_auth_token, :avatar_url)
+  User = Struct.new(:connection, :id, :name, :email_address, :admin, :created_at, :type, :api_auth_token, :avatar_url, :auto_invite_to_new_rooms)
 
   class User
     extend Instantiator
