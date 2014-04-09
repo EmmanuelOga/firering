@@ -19,7 +19,7 @@ module Firering
     # /rooms request
     def users(&callback)
       connection.http(:get, "/room/#{id}.json") do |data, http| # data can be blank on locked rooms
-        callback.call(data ? data[:room][:users].map { |user| Firering::User.instantiate(self, user) } : Array.new) if callback
+        callback.call(data ? data[:room][:users].map { |user| Firering::User.instantiate(connection, user) } : Array.new) if callback
       end
     end
 
