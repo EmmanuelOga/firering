@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = '1.3.5'
 
   s.name              = 'firering'
-  s.version           = '1.4.1'
+  s.version           = '1.4.2'
   s.date              = '2014-04-10'
   s.rubyforge_project = 'firering'
 
