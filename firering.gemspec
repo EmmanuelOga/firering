@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = '1.3.5'
 
   s.name              = 'firering'
-  s.version           = '1.4.0'
-  s.date              = '2013-07-05'
+  s.version           = '1.4.1'
+  s.date              = '2014-04-10'
   s.rubyforge_project = 'firering'
 
   s.summary     = "Campfire API interface powered by eventmachine em-http-request and yajl-ruby."
